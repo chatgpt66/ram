@@ -1,4 +1,4 @@
-	// TOOLBOOTH
+    	// TOOLBOOTH
 class TollBooth {
 	private static totalCars: number = 0;
 	private static totalAmount: number = 0;
@@ -619,3 +619,216 @@ listContainer.appendChild(div);
 console.log(div);
 (inputFild as HTMLInputElement).value = "";
 });
+
+//Todo 2nd
+
+import { useState } from "react";
+
+const Home = ()=>{
+    const [user,setUser] = useState({tittle:""});
+    const [arr,setArr] = useState([{tittle:"My"}]);
+    return (
+        <>
+            <input type="text" value={user.tittle} onChange={(ele)=>{setUser({tittle:ele.target.value})}}/>
+            <button onClick={()=>{
+                setArr([...arr,user]);
+            }}>
+                Submit
+            </button>
+            {
+                arr.map((ele)=>{
+                    return <li>{ele.tittle}</li>
+                })
+            }
+        </>
+    )
+}
+export default Home;
+
+// Calander
+ Html-
+
+  <body>
+    <div class="container">
+      <select name="name" id="selectMonth">
+        <option value="-1">Select Month</option>
+      </select>
+      <input
+        type="number"
+        value="2023"
+        placeholder="Year"
+        min="0"
+        id="yearFild" />
+      <button id="btn">Show Calender</button>
+    </div>
+    <div class="main-container" id="tableContainer"></div>
+    <!-- Script Linking -->
+    <script src="./dist/index.js"></script>
+  </body>
+
+//TS-
+
+const months: string[] = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+const selectMonth = document.getElementById("selectMonth") as HTMLSelectElement;
+months.forEach((month, index) => {
+  const monthOption = document.createElement("option") as HTMLOptionElement;
+  monthOption.setAttribute("value", `${index + 1}`);
+  selectMonth.appendChild(monthOption);
+  monthOption.innerHTML = `${month}`;
+});
+
+const btn = document.getElementById("btn") as HTMLButtonElement;
+const yearFild = document.getElementById("yearFild") as HTMLInputElement;
+
+const calendar: any[] = [];
+const days: string[] = ["Sun", "Mon", "Tue", "Wed", "Th", "Fri", "Sat"];
+
+days.forEach((d) => {
+  document.createElement("td");
+  calendar.push();
+});
+
+const calendarTable = document.getElementById(
+  "calendarTable"
+) as HTMLTableElement;
+
+let m: number = 0;
+let y: number = 0;
+
+btn.addEventListener("click", () => {
+  const year = yearFild.value;
+  const month = selectMonth.value;
+
+  m = parseInt(month);
+  y = parseInt(year);
+
+  if (month == "-1") return;
+  else {
+    const firstDay = new Date(`${year}-${month}-${1}`).getDay();
+    const lastDay = new Date(parseInt(year), parseInt(month), 0).getDate();
+    generateCalendar({ firstDay, lastDay });
+  }
+});
+
+const tableContainer = document.getElementById(
+  "tableContainer"
+) as HTMLDivElement;
+
+const generateCalendar = ({
+  firstDay,
+  lastDay,
+}: {
+  firstDay: number;
+  lastDay: number;
+}) => {
+  const table = document.createElement("table") as HTMLTableElement;
+  table.setAttribute("width", "100%");
+  table.setAttribute("border", "1px");
+  const caption = document.createElement("caption") as HTMLTableCaptionElement;
+  caption.innerHTML = `${months[m - 1]} ${y}`;
+  table.appendChild(caption);
+
+  let tableData = "<thead><tr>";
+
+  days.forEach((day) => {
+    tableData += `<td>${day}</td>`;
+  });
+
+  tableData += "</tr></thead><tr>";
+
+  let start: number = 1;
+
+  for (let i = 0; i < 7; i++) {
+    if (i < firstDay) {
+      tableData += "<td></td>";
+    } else {
+      tableData += `<td>${start++}</td>`;
+    }
+  }
+  tableData += "</tr><tr>";
+
+  firstDay = 0;
+
+  while (start <= lastDay) {
+    if (firstDay % 7 == 0) {
+      tableData += "</tr><tr>";
+    }
+    tableData += `<td>${start++}</td>`;
+    firstDay++;
+  }
+
+  while (firstDay % 7 != 0) {
+    tableData += "<td></td>";
+    firstDay++;
+  }
+  tableData += "</tr>";
+
+  table.innerHTML += tableData;
+
+  tableContainer.appendChild(table);
+};
+
+// actor
+class Person {
+    protected name: string;
+    protected color: string;
+    protected numberOfEyes: number;
+  
+    constructor(name: string, color: string, numberOfEyes: number) {
+      this.name = name;
+      this.color = color;
+      this.numberOfEyes = numberOfEyes;
+    }
+  
+    public toString(): string {
+      return `The person ${this.name} is a ${this.constructor.name}. He/She is ${this.color} in color, has ${this.numberOfEyes} eyes.`;
+    }
+  }
+  
+  class Actor extends Person {
+    private debutYear: number;
+  
+    constructor(name: string, color: string, numberOfEyes: number, debutYear: number) {
+      super(name, color, numberOfEyes);
+      this.debutYear = debutYear;
+    }
+  
+    public toString(): string {
+      return `${super.toString()} Debut year: ${this.debutYear}`;
+    }
+  }
+  
+  class Actress extends Person {
+    private debutYear: number;
+  
+    constructor(name: string, color: string, numberOfEyes: number, debutYear: number) {
+      super(name, color, numberOfEyes);
+      this.debutYear = debutYear;
+    }
+  
+    public toString(): string {
+      return `${super.toString()} Debut year: ${this.debutYear}`;
+    }
+  }
+  
+  // Example usage
+  const amitabh = new Actor("Amitabh", "BROWN", 2, 1965);
+  const hema = new Actress("Hema", "White", 2, 1975);
+  
+  console.log(amitabh.toString());
+  console.log(hema.toString());
+    
