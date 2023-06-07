@@ -1,834 +1,857 @@
-    	// TOOLBOOTH
-class TollBooth {
-	private static totalCars: number = 0;
-	private static totalAmount: number = 0;
-
-	public payingCar(): void {
-		TollBooth.totalCars++;
-		TollBooth.totalAmount += 50;
-	}
-
-	public nopayCar(): void {
-		TollBooth.totalCars++;
-	}
-
-	public display(): void {
-		console.log(`Total numbers of cars passed the Bridge : ${TollBooth.totalCars}`);
-		console.log(`Total amount collected from Toll Booth : ${TollBooth.totalAmount}`);
-	}
-}
-
-function sample(...inputs: ('p' | 'n')[]) {
-	const obj = new TollBooth();
-
-	for (const input of inputs) {
-		if (input == 'p') {
-			obj.payingCar();
-		}
-		else {
-			obj.nopayCar();
-		}
-	}
-	obj.display();
-}
-
-sample('p', 'p', 'n');
-
-
-	// SAFE ARRAY
-export { }
-
-class SafeArray {
-	private arr: number[] = [];
-	private indexCount: number[] = [];
-	private wrongEttemptCount: number = 0;
-
-	public putElement(index: number, value: number) {
-		if (index >= 5 || index < 0) {
-			this.indexCount.push(index);
-			this.wrongEttemptCount += 1;
-			this.displayMessage();
-		}
-		else {
-			this.arr[index] = value;
-
-		}
-	}
-
-	public getElement(index: number): number {
-		if (index < 0 || index >= 5) {
-			return -1;
-		}
-		else {
-			return this.arr[index];
-		}
-	}
-
-	public displayMessage() {
-		console.log(`No valid index ${this.wrongEttemptCount} failed ettempt and attempts are ${this.showEttempt()}`)
-	}
-
-	public showEttempt() {
-		let attempts: string = "";
-		this.indexCount.forEach(item => {
-			attempts += item + " ";
-		})
-		return attempts;
-	}
-}
-
-let safeArr = new SafeArray();
-
-safeArr.putElement(2, 0);
-safeArr.putElement(12, 12);
-safeArr.getElement(2);
-safeArr.putElement(13, 123);
-
-
-	// FILTERED ACCOUNT
-class account {
-	protected accountNo: number;
-	constructor(accountNo: number) {
-		this.accountNo = accountNo;
-	}
-	public process(transaction: Transaction): boolean {
-		if (transaction.value() > 0) {
-			return true;
-		}
-		return false;
-	}
-}
-class Transaction {
-	protected amount: number;
-	constructor(amount: number) {
-		this.amount = amount;
-	}
-	public value(): number {
-		return this.amount;
-	}
-}
-class FilterAccount extends account {
-	protected fillteraccount: number;
-	constructor(acccount: number) {
-		super(acccount);
-		this.fillteraccount = 0;
-	}
-	public process(transaction: Transaction): boolean {
-		if (transaction.value() == 0) {
-			this.fillteraccount++;
-			return true;
-		}
-		else {
-			return super.process(transaction);
-		}
-	}
-	public filterCount(): number {
-		return this.fillteraccount;
-	}
-}
-let n = new Transaction(30);
-let m = new FilterAccount(234);
-let res = m.process(n);
-console.log(res);
-console.log(m.filterCount());
-
-
-	// GENERIC STACK
-HTML-
-<body>
-    <div class="MainDiv">
-        <button id="pushBtn">Push Element</button>
-        <button id="popBtn">Pop Element</button>
-        <button id="countBtn">Count Element</button>
-        <button id="isEmptyBtn">Is Empty</button>
-        <button id="peekBtn">Peek Element</button>
-        <div id="displayDiv">
-   
-        </div>
-    </div>
-    <script src="./Demo.js"></script>
-</body>
-
-TS-
-class Stack<T>{
-	private stack: T[] = [];
-	private countEle: number = 0;
-
-	public push(ele: T) {
-		this.stack.unshift(ele);
-		this.countEle++;
-	}
-
-	public pop() {
-		let ele = this.stack[0];
-		this.stack.shift();
-		this.countEle--;
-		return ele;
-	}
-
-	public count() {
-		return this.countEle;
-	}
-
-	public peek() {
-		if (this.stack.length == 0) return -1;
-		return this.stack[0];
-	}
-
-	public isEmpty() {
-		return this.stack.length == 0 ? true : false;
-	}
-
-	public getArr() {
-		return this.stack;
-	}
-}
-
-let stk = new Stack();
-
-let pushBtn = document.getElementById("pushBtn") as HTMLInputElement;
-let popBtn = document.getElementById("popBtn") as HTMLInputElement;
-let countBtn = document.getElementById("countBtn") as HTMLInputElement;
-let peekBtn = document.getElementById("peekBtn") as HTMLInputElement;
-let isEmptyBtn = document.getElementById("isEmptyBtn") as HTMLInputElement;
-let displayDiv = document.getElementById("displayDiv") as HTMLInputElement;
-
-
-
-pushBtn?.addEventListener("click", (e) => {
-	e.preventDefault();
-	let ele = prompt("Enter elment :");
-	stk.push(ele);
-	displayDiv.innerHTML = `All stack elements are ${stk.getArr().toString()}`;
-
-})
-
-popBtn?.addEventListener("click", (e) => {
-	e.preventDefault();
-	displayDiv.innerHTML = `Popped element is ${stk.pop()}`
-})
-
-peekBtn?.addEventListener("click", (e) => {
-	e.preventDefault();
-	let ele = stk.peek();
-	displayDiv.innerHTML = `Peek element is ${ele}`
-})
-
-isEmptyBtn?.addEventListener("click", (e) => {
-	e.preventDefault();
-	let res = stk.isEmpty();
-	if (res) displayDiv.innerHTML = "Stack is Empty";
-	else displayDiv.innerHTML = "Stack is not Empty";
-})
-
-countBtn?.addEventListener("click", (e) => {
-	e.preventDefault();
-	let count = stk.count();
-	displayDiv.innerHTML = `Total elements are ${count}`
-})
-
-
-	// INSERT ARRAY - PROMPT
-HTML- 
-	<input type="text" id="insertid">
-    <button id="insertbtn">Insert</button><br>
-    <input type="text" id="deleteid">
-    <button id="deletebtn">Insert</button>
-    <h1 id="res"></h1>
-    <script src="insertArray.js"></script>
-TS-
-const inputval = document.querySelector('#insertid') as HTMLInputElement;
-const deleteval = document.querySelector('#deleteid') as HTMLInputElement;
-const inputbtn = document.querySelector('#insertbtn') as HTMLButtonElement;
-const deletebtn = document.querySelector('#deletebtn') as HTMLButtonElement;
-
-let arr:number[] = [];
-
-inputbtn.addEventListener('click',()=>{
-    const insertN :number = parseInt(inputval.value);
-    for(let i=0;i<insertN;i++){
-        const val = parseInt(window.prompt("insert Number only")!);
-        if(val) arr.push(val);
-    }
-    display(arr);
-})
-deletebtn.addEventListener('click',()=>{
-    const val:number = parseInt(deleteval.value);
-    for(let i=0;i<val;i++){
-        const v = parseInt(window.prompt("delete element")!);
-        arr = arr.filter((ele)=>{
-            if(v!=ele) return true;
-        })
-    }
-    display(arr);
-})
-const res = document.querySelector("#res") as HTMLHeadingElement;
-const display=(data:number[])=>{
-    res.innerHTML="";
-    data.forEach((ele)=>{
-        res.innerHTML+=ele+" ";
+		// Routing
+const { error } = require('console');
+const http = require('http');
+const fs = require('fs');
+const route = (path,res,status_code,type)=>{
+    fs.readFile(path,(error,data)=>{
+        res.writeHead(status_code,{'Content-Type':type});
+        res.write(data);
+        return res.end();
     });
 }
-
-
-	// ITENARY-DAY  
-HTML-
-<body>
-    <div class="MainDiv">
-        <select id="select" value="">
-            
-        </select>
-        <div id="sectionDiv">
-
-        </div>
-    </div>
-    <script src="Demo.js"></script>
-</body>
-
-TS-
-let arr=[
-    {"Day1":"Reach to Destination"},
-    {"Day2":"city tour in a company tourist bus"},
-    {"Day2":"Breakfast and Dinner"},
-    {"Day3":"Visit Chang-la"},
-    {"Day4":"Back to your home"},
-    {"Day5":"Again go to Destination"}
-]
-
-
-let selectEle=document.getElementById("select") as HTMLInputElement;
-let sectionDiv=document.getElementById("sectionDiv") as HTMLInputElement;
-
-
-selectEle?.addEventListener("change",(item)=>{
-    let key=selectEle.value;
-    sectionDiv.innerHTML="";
-    displayAllContent(key);
+const app = http.createServer((req,res)=>{
+    if(req.url=='/' || req.url=='/home'){
+        const path = "./html/home.html";
+        const status_code = 200;
+        const type = 'text/html';
+        route(path,res,status_code,type);
+        
+    }
+    else if(req.url=='/aboutUs'){
+        const path = "./html/about.html";
+        const status_code = 200;
+        const type = 'text/html';
+        route(path,res,status_code,type);
+    }
+    else{
+        const path = "./html/notFound.html";
+        const status_code = 401;
+        const type = 'text/html';
+        route(path,res,status_code,type);
+    }
+    // res.write("saklmxc");
+    // res.end();
+});
+app.listen(4040,(error)=>{
+    console.log("server is stated.....");
 })
 
-function displayAllContent(key:string){
-    arr.forEach(item=>{
-        if(Object.keys(item)[0] == key){
-            sectionDiv.appendChild(createCard(item[key]));
 
-        }
-    })
-}
+///FILE UPLODING
+const { compile } = require("ejs");
+const express  = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const multer = require("multer");
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+const fileSchema = require("./model/file");
+const path = require("path");
+app.use(express.static(path.join(__dirname, "./upload")));
 
-function createCard(content:string){
-    let card=document.createElement("div");
-    card.innerHTML=content;
-    return card;
-}
+mongoose.connect("give your own cluster")
+.then(res => console.log("Database is connected...")).catch(err => console.log(err));
 
-function createOption(key:string){
-    let option=document.createElement("option");
-    option.value=key;
-    option.innerHTML=key;
-    return option;
+const mstorage = multer.diskStorage({
+    destination:function(res,file,cb){
+        return cb(null,"./upload")
+    },
+    filename:function(res,file,cb){
+        return cb(null,`${Date.now()}-${file.originalname}`)
+    },
 
-}
+})
 
-function createSelect(){
-    let set:String[]=[];
-    arr.forEach(item=>{
-        if(set.indexOf(Object.keys(item)[0]) == -1){
-            let option=createOption(Object.keys(item)[0]);
-            selectEle?.appendChild(option);
-            set.push(Object.keys(item)[0]);
-        }
-    })
-
-    console.log(set);
-}
-createSelect();
-
-displayAllContent(Object.keys(arr[0])[0]);
-
-
-	// PRODUCT/BOOK SEARCH
-HTML-
-<body>
-	<h1>Book Search</h1>
-	<label for="searchInput">Search by Title:</label>
-	<input type="text" id="searchInput" oninput="searchYourBook()">
-	<div id="results"></div>
-	<script src="./Demo.js"></script>
-</body>
-
-TS-
-var books = [
-	{ "title": "My Talented Book", "author": "ABC" },
-	{ "title": "My Third Book", "author": "XYZ" },
-	{ "title": "First Book", "author": "CDE" }
-];
-
-var searchInput = document.getElementById("searchInput") as HTMLInputElement;
-var resultsDiv = document.getElementById("results") as HTMLDivElement;
-
-function searchYourBook(): void {
-	var searchQuery: string = searchInput.value.toLowerCase();
-	resultsDiv.innerHTML = "";
-	var matchingBooks = books.filter(function (book) { return book.title.toLowerCase().includes(searchQuery); });
-	matchingBooks.forEach(function (book): void {
-		var result: HTMLDivElement = document.createElement("div");
-		result.textContent = book.title + " - " + book.author;
-		resultsDiv.appendChild(result);
-	});
-}
-
-
-	// PRODUCT DETAILS
-HTML-
-<body>
-	<h1>Product Catalog</h1>
-	<label for="product-select">Select a product:</label>
-	<select id="product-select" onchange="disDetails()">
-		<option value="">Select Product</option>
-	</select>
-	<div id="product-details"></div>
-</body>
-
-TS-
-const products = [
-			{ "title": "Product1", "image": "https://picsum.photos/200", "price": 380, "description": "first product" },
-			{ "title": "Product2", "image": "https://picsum.photos/200", "price": 980, "description": "second product" },
-			{ "title": "Product3", "image": "https://picsum.photos/200", "price": 1200, "description": "third product" }
-		];
-		function displayProducts() {
-			const pSel = document.getElementById("product-select");
-			pSel.innerHTML = "";
-			products.forEach(product => {
-				const option = document.createElement("option");
-				option.value = product.title;
-				option.text = product.title;
-				pSel.add(option);
-			});
-		}
-		function disDetails() {
-			const pSel = document.getElementById("product-select");
-			const selProTitle = pSel.value;
-			const proDel = document.getElementById("product-details");
-			proDel.innerHTML = "";
-			const selPro = products.find(product => product.title === selProTitle);
-			if (selPro) {
-				const title = document.createElement("h2");
-				title.innerText = selPro.title;
-				const image = document.createElement("img");
-				image.src = selPro.image;
-				const price = document.createElement("p");
-				price.innerText = "Price: $" + selPro.price;
-				const description = document.createElement("p");
-				description.innerText = selPro.description;
-				
-				proDel.appendChild(title);
-				proDel.appendChild(image);
-				proDel.appendChild(price);
-				proDel.appendChild(description);
-			}
-		}
-		displayProducts();
-
-
-	// STOPWATCH
-import React, {  useEffect, useState } from 'react';
-
-function Set() {
-    const[num,setNum]=useState(0);
-    const[run,setRun]=useState(false);
-    const[laps,setLaps]=useState([`Time`]);
-    useEffect(()=>{
-        let intervalId:any;
-       if(run){
-          intervalId= setInterval(()=>{
-            setNum(num=>num+1)
-           },10);
-       }
-       return () => {
-        clearInterval(intervalId);
-      };
-    },[run])
-    function time(){
-        let hour=Math.floor(num / 3600);
-        let minute=Math.floor(num / 60);
-        let sec=num % 60;
-        return `${hour}:${minute}:${sec}`;
+const ffilter = (req,file,cb)=>{
+    if(file.mimetype.split('/')[1]==='jpg'){
+        return cb(null,true)
     }
-    function lap(num:any){
-        console.log(num);
-        let count=time();
-        setLaps([...laps,count]);
-        console.log(laps);
-        
+    else{
+        return cb(new Error('only jpg allowed'),false);
     }
-    function reset(){
-        setNum(0);
-        setRun(false);
-        setLaps([``]);
-    }
-  return (
-    <>
-        <div>{
-            run?(
-                <button onClick={()=>{setRun(false)}}>Stop</button>
-            ):(
-                <button onClick={()=>{setRun(true)}}>Start</button>
-            )
-
-        }
-        <button onClick={()=>{lap(num)}}>Lap</button>
-        <button onClick={()=>{reset()}}>Reset</button>
-        </div>
-        
-      <h1>{time()}</h1>
-      {
-          
-            laps.map((item,index)=>{
-              return  <li key={index}>{item}</li>
-            })
-        
-      }
-    </>
-  )
 }
 
-export default Set;
+const upload = multer({storage:mstorage});
+
+app.set('view engine', 'ejs');
 
 
-	// FETHC API/JSON
-PART-1 WITH GIVEN JSON DATA
-import { useEffect } from "react";
 
-const Person=()=>{
-    const arr :any[] = [{
-        "id": 1,
-        "name": "Leanne Graham",
-        "username": "Bret",
-        
-      },
-      {
-        "id": 2,
-        "name": "Ervin Howell",
-        "username": "Antonette",
-        
-      }];
-      
-    return (
-        <>
-            {
-                arr.map((ele:any)=>{
-                    return <li>{ele.id}</li>
-                })
-            }
-        </>
-    )
-}
-export default Person;
-
-PART-2 USING API
-import { useEffect, useState } from "react";
-
-const End = ()=>{
-
-    const [user,setUser]=useState([""])
-    useEffect(()=>{
-        fetch("https://jsonplaceholder.typicode.com/users").then((data)=>{
-            return data.json();
-        }).then((ele)=>{
-            setUser(ele);
-        })
-    })
-    return(
-        <>
-          {
-                 user.map((ele:any)=>{
-                return <li>{ele.name}  {ele.username}</li>
-            })
-          }
-        </>
-    );
-}
-
-export default End;
-
-
-	// TODO
-HTML-
-
-<body>
-	<div id="container">
-		<h1 id="header">TODO App</h1>
-		<div>
-			<input type="text" id="inputFild" />
-			<button id="btn">Add</button>
-		</div>
-		<div id="listContainer"></div>
-	</div>
-	<script src="./src/index.js"></script>
-</body>
-
-TS-
-const inputFild = document.getElementById("inputFild") as HTMLInputElement;
-const btn = document.getElementById("btn") as HTMLButtonElement;
-/*
-inputFild.addEventListener("keyup", (e) => {
-const inputData: string = (e.target as HTMLInputElement).value;
-
-});*/
-const listContainer = document.getElementById(
-"listContainer"
-) as HTMLDivElement;
-
-btn.addEventListener("click", () => {
-const inputData: string = (inputFild as HTMLInputElement).value.trim();
-if (inputData == "") return;
-const div = document.createElement("div") as HTMLDivElement;
-const checkbox = document.createElement("input") as HTMLInputElement;
-const title = document.createElement("h2") as HTMLHeadElement;
-const deletebBTN = document.createElement("i") as HTMLParagraphElement;
-const lebel = document.createElement("label") as HTMLLabelElement;
-
-title.innerHTML = `${inputData}`0;
-deletebBTN.innerHTML = "Delete";
-
-deletebBTN.setAttribute("id", "removeBtn");
-
-// lebel.setAttribute();
-
-deletebBTN.addEventListener("click", () => {
-listContainer.removeChild(div);
-}); ///solved
-
-checkbox.addEventListener("click", () => {
-if (title.style.textDecorationLine !== "line-through") {
-title.style.textDecorationLine = "line-through";
-} else {
-title.style.textDecorationLine = "none";
-}
+app.get("/boy", (req, res)=>{
+    res.render("home");
 });
 
-checkbox.setAttribute("type", "checkbox");
-div.setAttribute("class", "items");
-
-lebel.appendChild(checkbox);
-lebel.appendChild(title);
-div.appendChild(lebel);
-div.appendChild(deletebBTN);
-
-listContainer.appendChild(div);
-console.log(div);
-(inputFild as HTMLInputElement).value = "";
+app.get("/display", async(req, res)=>{
+   try{
+      const imgFile = await fileSchema.find();
+      res.render("display", {file: imgFile});
+   }
+   catch(error)
+    {
+      console.log(error);
+    }
 });
 
-//Todo 2nd
-
-import { useState } from "react";
-
-const Home = ()=>{
-    const [user,setUser] = useState({tittle:""});
-    const [arr,setArr] = useState([{tittle:"My"}]);
-    return (
-        <>
-            <input type="text" value={user.tittle} onChange={(ele)=>{setUser({tittle:ele.target.value})}}/>
-            <button onClick={()=>{
-                setArr([...arr,user]);
-            }}>
-                Submit
-            </button>
-            {
-                arr.map((ele)=>{
-                    return <li>{ele.tittle}</li>
-                })
-            }
-        </>
-    )
-}
-export default Home;
-
-// Calander
- Html-
-
-  <body>
-    <div class="container">
-      <select name="name" id="selectMonth">
-        <option value="-1">Select Month</option>
-      </select>
-      <input
-        type="number"
-        value="2023"
-        placeholder="Year"
-        min="0"
-        id="yearFild" />
-      <button id="btn">Show Calender</button>
-    </div>
-    <div class="main-container" id="tableContainer"></div>
-    <!-- Script Linking -->
-    <script src="./dist/index.js"></script>
-  </body>
-
-//TS-
-
-const months: string[] = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-const selectMonth = document.getElementById("selectMonth") as HTMLSelectElement;
-months.forEach((month, index) => {
-  const monthOption = document.createElement("option") as HTMLOptionElement;
-  monthOption.setAttribute("value", `${index + 1}`);
-  selectMonth.appendChild(monthOption);
-  monthOption.innerHTML = `${month}`;
-});
-
-const btn = document.getElementById("btn") as HTMLButtonElement;
-const yearFild = document.getElementById("yearFild") as HTMLInputElement;
-
-const calendar: any[] = [];
-const days: string[] = ["Sun", "Mon", "Tue", "Wed", "Th", "Fri", "Sat"];
-
-days.forEach((d) => {
-  document.createElement("td");
-  calendar.push();
-});
-
-const calendarTable = document.getElementById(
-  "calendarTable"
-) as HTMLTableElement;
-
-let m: number = 0;
-let y: number = 0;
-
-btn.addEventListener("click", () => {
-  const year = yearFild.value;
-  const month = selectMonth.value;
-
-  m = parseInt(month);
-  y = parseInt(year);
-
-  if (month == "-1") return;
-  else {
-    const firstDay = new Date(`${year}-${month}-${1}`).getDay();
-    const lastDay = new Date(parseInt(year), parseInt(month), 0).getDate();
-    generateCalendar({ firstDay, lastDay });
-  }
-});
-
-const tableContainer = document.getElementById(
-  "tableContainer"
-) as HTMLDivElement;
-
-const generateCalendar = ({
-  firstDay,
-  lastDay,
-}: {
-  firstDay: number;
-  lastDay: number;
-}) => {
-  const table = document.createElement("table") as HTMLTableElement;
-  table.setAttribute("width", "100%");
-  table.setAttribute("border", "1px");
-  const caption = document.createElement("caption") as HTMLTableCaptionElement;
-  caption.innerHTML = `${months[m - 1]} ${y}`;
-  table.appendChild(caption);
-
-  let tableData = "<thead><tr>";
-
-  days.forEach((day) => {
-    tableData += `<td>${day}</td>`;
-  });
-
-  tableData += "</tr></thead><tr>";
-
-  let start: number = 1;
-
-  for (let i = 0; i < 7; i++) {
-    if (i < firstDay) {
-      tableData += "<td></td>";
-    } else {
-      tableData += `<td>${start++}</td>`;
+app.post("/upload",upload.single('file_name'),async(req,res)=>{
+    const newSchema = new fileSchema({
+        img: req.file.filename
+    });
+    try{
+       await newSchema.save();
+       res.redirect("/display");
+    }catch(error)
+    {
+      console.log(error);
     }
-  }
-  tableData += "</tr><tr>";
-
-  firstDay = 0;
-
-  while (start <= lastDay) {
-    if (firstDay % 7 == 0) {
-      tableData += "</tr><tr>";
-    }
-    tableData += `<td>${start++}</td>`;
-    firstDay++;
-  }
-
-  while (firstDay % 7 != 0) {
-    tableData += "<td></td>";
-    firstDay++;
-  }
-  tableData += "</tr>";
-
-  table.innerHTML += tableData;
-
-  tableContainer.appendChild(table);
-};
-
-// actor
-class Person {
-    protected name: string;
-    protected color: string;
-    protected numberOfEyes: number;
-  
-    constructor(name: string, color: string, numberOfEyes: number) {
-      this.name = name;
-      this.color = color;
-      this.numberOfEyes = numberOfEyes;
-    }
-  
-    public toString(): string {
-      return `The person ${this.name} is a ${this.constructor.name}. He/She is ${this.color} in color, has ${this.numberOfEyes} eyes.`;
-    }
-  }
-  
-  class Actor extends Person {
-    private debutYear: number;
-  
-    constructor(name: string, color: string, numberOfEyes: number, debutYear: number) {
-      super(name, color, numberOfEyes);
-      this.debutYear = debutYear;
-    }
-  
-    public toString(): string {
-      return `${super.toString()} Debut year: ${this.debutYear}`;
-    }
-  }
-  
-  class Actress extends Person {
-    private debutYear: number;
-  
-    constructor(name: string, color: string, numberOfEyes: number, debutYear: number) {
-      super(name, color, numberOfEyes);
-      this.debutYear = debutYear;
-    }
-  
-    public toString(): string {
-      return `${super.toString()} Debut year: ${this.debutYear}`;
-    }
-  }
-  
-  // Example usage
-  const amitabh = new Actor("Amitabh", "BROWN", 2, 1965);
-  const hema = new Actress("Hema", "White", 2, 1975);
-  
-  console.log(amitabh.toString());
-  console.log(hema.toString());
     
+})
+app.listen(3000, ()=>{
+    console.log(`server is running port ${3000}`);
+});
+
+
+//mongoose
+const mongoose = require("mongoose");
+const fileSchema = mongoose.Schema(
+    {
+   img:{
+    type:String,
+    required: true
+   }
+});
+module.exports = mongoose.model("File", fileSchema);
+
+//ejs
+//home 
+<body>
+    <h1>hello</h1>
+    <form action="upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file_name">
+        <button type="submit">submit</button>
+    </form>
+    
+</body>
+
+//display
+<body>
+      <div>
+        <table>
+            <% file.forEach((item)=>{ %>
+                <img src="/<%=item.img%>" alt="img" />
+            <%})%>
+        </table>
+      </div> 
+</body>
+
+/// TODO APP
+index.js
+const express = require("express");
+const app =express();
+const mongoose = require("mongoose");
+app.set("view engine","ejs");
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+const PORT = 3030 || process.env.PORT;
+
+const studentShema = require("./model/file");
+mongoose.connect("own link")
+.then(res=>console.log("Database Connected......")).catch(error=>console.log(error));
+
+app.get('/',async(req,res)=>{
+    const studentDetails = await studentShema.find();
+    try{
+        res.render("home",({studentDetails:studentDetails}));
+    }
+    catch(error){
+        console.log(error);
+    }
+    
+})
+app.get("/addStudent",(req,res)=>{
+    res.render("addStudent");
+})
+
+app.post("/addStudent",async(req,res)=>{
+    const {name,course,age} = req.body;
+    const newSchema = new studentShema({
+        name:name,
+        course:course,
+        age:age
+    })
+    try{
+        await newSchema.save();
+        res.redirect('/');
+    }
+    catch(error){
+        console.log(error);
+    }
+})
+app.get("/deleteStudent/:id",async(req,res)=>{
+    const stdId = req.params.id;
+    try{
+        await studentShema.findByIdAndRemove(stdId);
+        res.redirect("/");
+    }
+    catch(error){
+        console.log(error);
+    }
+})
+
+app.get("/viewSingleStudent",async(req,res)=>{
+    const studentDetails = await studentShema.find();
+    try{
+        res.render("home",({studentDetails:studentDetails}));
+    }
+    catch(error){
+        console.log(error);
+    }
+})
+
+app.get("/viewSingleStudent/:id",async(req,res)=>{
+    const singleid = req.params.id;
+    try{
+        const student = await studentShema.findOne({_id:singleid});
+        res.render("viewSingleStudent",({student:student}));
+    }
+    catch(error){
+        console.log(error);
+    }
+})
+
+app.get("/editStudent/:id",async(req,res)=>{
+    const singleId = req.params.id;
+    try{
+        const student = await studentShema.findOne({_id:singleId});
+        res.render("edit",({student:student}));
+    }
+    catch(error)
+    {
+    console.log(error);
+    }
+})
+app.post("/update/:id",async(req,res)=>{
+    const singleId = req.params.id;
+    const {name,course,age} = req.body;
+    const newSchema = {
+        name:name,
+        course:course,
+        age:age
+    }
+    try{
+        await studentShema.findByIdAndUpdate(singleId,newSchema,({new:true}));
+        res.redirect("/");
+    }
+    catch(error){
+        console.log(error);
+    }
+})
+
+
+app.listen(PORT,(error)=>{
+    console.log(`Server is running at port ${PORT}`);
+})
+
+//model
+const mongoose = require("mongoose");
+const studentSchema = mongoose.Schema({
+    name:{type:String,required:true},
+    course:{type:String,required:true},
+    age:{type:String,required:true}
+})
+module.exports = mongoose.model("Fileee",studentSchema);
+
+//EJS
+//addStudent.ejs
+<body>
+    <form action="/addStudent" method="POST">
+        StudentName:
+        <input type="text" name="name"/><br>
+        StudentCourse:
+        <input type="text" name="course"/><br>
+        StudentAge:
+        <input type="number" name="age"><br>
+        <button type="submit">Add Student</button>
+    </form>
+</body>
+
+//home.ejs
+<body>
+    <button><a href="/addStudent">Add Student</a></button>
+    <table>
+        <thead>
+            <tr>
+                <th>Student name</th>
+                <th>Student Course</th>
+                <th>Student Age</th>
+            </tr>
+        </thead>
+        <tbody >
+            <%studentDetails.forEach((student)=>{%>
+                <tr>
+                    <td><%=student.name %></td>
+                    <td><%=student.course %></td>
+                    <td><%=student.age %></td>
+                    <td><button><a href="deleteStudent/<%=student.id %>">Delete</a></button>
+                        <button><a href="viewSingleStudent/<%=student.id %>">View</a></button>
+                        <button><a href="editStudent/<%=student.id %>">Edit</a></button></td>
+                </tr>
+            <%})%>
+        </tbody>
+    </table>
+</body>
+
+//edit.ejs
+<body>
+    <h1>Edit Details</h1>
+    <form action="/update/<%=student.id %>" method="POST">
+        StudentName: <input type="text" name="name" value="<%=student.name%>"><br>
+        StudentCourse: <input type="text" name="course" value="<%=student.course%>"><br>
+        StudentAge: <input type="number" name="age" value="<%=student.age%>"><br>
+
+        <button type="submit">Update Details</button>
+
+    </form>
+</body>
+
+//viewSingleStudent.ejs
+<body>
+    <table>
+        <thead>
+            <th>Name </th>
+            <th>Course</th>
+            <th>Age</th>
+        </thead>
+        <tbody>
+            <td><%=student.name %></td>
+            <td><%=student.course %></td>
+            <td><%=student.age %></td>
+
+        </tbody>
+    </table>
+    <button type="submit"><a href="/viewSingleStudent">View All Student Details</a></button>
+</body>
+
+
+//login and signup auth
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const app = express();
+require("dotenv").config();
+const session = require("express-session");
+const PORT = process.env.PORT || 8000;
+const path = require("path");
+const ejs = require("ejs");
+const mongoose=require("mongoose");
+const userSchema=require("./modules/user");
+const bcrypt=require("bcrypt");
+app.use(express.urlencoded({extended:false}))
+app.use(express.json());
+
+/**
+ * Middleware
+ */
+app.use(express.json());
+app.set("view engine", "ejs");
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: "!@*#$(&!#my_secret_()*$!@01293",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+  })
+);
+
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
+/**
+ * Login
+ */
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.post("/login",async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    
+    const existuser=await userSchema.findOne({username:username});
+    if(!existuser){
+      res.status(400).json({error:"user not found"})
+    }
+    const matchpassword=await bcrypt.compare(password,existuser.password);
+    if(!matchpassword){
+      res.status(400).json({error:"invalid password"})
+    }
+    req.session.isAuth = true;
+    let time=3600000;
+    res.cookie("user",existuser._id,{
+      expires:new Date(Date.now()+time),
+      httpOnly:true
+    })
+    res.redirect(`/dashboard`);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+/**
+ * Register
+ */
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+app.post("/register",async (req, res) => {
+  let data=req.body;
+  console.log(data);
+  const userExist=await userSchema.findOne({username:data.username});
+  try {
+    if(userExist){
+      res.status(200).json({error:"user found"})
+    }else{
+      const hashpassword=await bcrypt.hash(data.password,10);
+      const result=await userSchema.create({
+        username:data.username,
+        password:hashpassword
+      })
+      console.log(result);
+      req.session.isAuth = true;
+      let time=3600000;
+      res.cookie("user",result._id,{
+      expires:new Date(Date.now()+time),
+      httpOnly:true
+    })
+    res.redirect(`/dashboard`);
+    }
+  } catch (error) {
+     console.log(error);
+  }
+  
+});
+
+/**
+ * Dashboard
+ */
+
+function isAuth(req, res, next) {
+  if (req.session.isAuth) {
+    next();
+  } else res.redirect("/login");
+}
+
+app.get("/dashboard", isAuth, async(req, res) => {
+  //console.log(req.cookies.user);
+  let data=await userSchema.findOne({_id:req.cookies.user})
+  res.render("dashboard",{
+    userName:data.username
+  });
+});
+
+/**
+ * Logout
+ */
+
+app.get("/logout", (req, res) => {
+  req.session.isAuth = false;
+  res.clearCookie("user");
+  res.redirect("/login");
+});
+app.get("/delete/:id", async(req,res)=>{
+    
+  let data=await userSchema.findByIdAndRemove(req.params.id);
+   res.redirect("/");
+})
+
+mongoose.connect('own link').then(()=>{
+  app.listen(PORT, (err) => {
+    if (err) console.log(`Error listening on ${PORT}`);
+    else console.log(`Servers started on port  http://localhost:${PORT}`);
+  });
+  
+}).catch((error)=>{
+  console.log(error);
+})
+
+
+//module user.js
+const mongoose=require("mongoose");
+
+const userSchema=new mongoose.Schema({
+    username:{
+        type:String,
+        require:true
+    },
+    password:{
+        type:String,
+        require:true
+    }
+},{timestamps:true});
+
+module.exports=mongoose.model("User",userSchema);
+
+//view all ejs
+home.ejs
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <a href="/dashboard">dashboard</a>
+    <a href="/register">register</a>
+    <a href="/login">Login</a>
+  </body>
+</html>
+
+
+//dashboard.ejs
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <a href="/logout">logout</a>
+    <a href="/delete>">Account Delete</a>
+    <br />
+    <p><%= userName %></p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi numquam
+  </body>
+</html>
+
+//login.ejs
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <form action="/login" method="post">
+      username:
+      <input type="text" name="username" required />
+      password:
+      <input type="password" name="password" required />
+      <input type="submit" value="submit" />
+    </form>
+  </body>
+</html>
+
+//register.ejs
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <form action="/register" method="post">
+      username:
+      <input type="text" name="username" required />
+      password:
+      <input type="password" name="password" required />
+      <input type="submit" value="submit" />
+    </form>
+  </body>
+</html>
+
+
+///LOGIN AND SIGNUP JWT
+src/index.js
+const express=require ("express");
+const app=express();
+const session = require('express-session')
+const userApp=require("../src/routes/userRoute");
+const mongoose=require("mongoose")
+const cookieParser=require("cookie-parser")
+app.use(express.urlencoded({extended:false}))
+app.use(express.json());
+app.use(session(
+    {
+        secret : "12io31212u38912731208uiojwkedfs)(&*#$(#@",
+        saveUninitialized : true,
+        resave : true,
+        cookie : {maxAge : 24 * 60 * 60 * 1000}
+    }
+))
+app.use(cookieParser());
+app.set("view engine","ejs");
+
+
+app.use(userApp);
+mongoose.connect("url").then(()=>{
+    app.listen(5000,()=>{
+        console.log("Server running on 5000");
+    })
+}).catch((err)=>{
+    console.log(err);
+})
+
+
+//src/route/userRoute.js
+
+const express=require("express");
+const {signup,login,logout}=require("../../controllers/user")
+const auth=require("../../middleware/auth")
+const userApp=express();
+
+userApp.get("/",(req,res)=>{
+    res.render("Home");
+})
+userApp.get("/Profile",auth,(req,res)=>{
+    res.render("profile");
+})
+userApp.get("/about",(req,res)=>{
+    res.render("profile");
+})
+userApp.get("/signup",(req,res)=>{
+    res.render("signup");
+})
+userApp.get("/login",(req,res)=>{
+    res.render("login");
+})
+userApp.get("/logout",logout)
+userApp.post("/signup",signup);
+userApp.post("/login",login);
+module.exports=userApp;
+
+
+//src/module/user.js
+
+const mongoose=require("mongoose");
+
+const userSchema=new mongoose.Schema({
+    username:{
+        type:String,
+        require:true
+    },
+    email:{
+        type:String,
+        require:true
+    },
+    password:{
+        type:String,
+        require:true
+    }
+},{timestamps:true});
+
+module.exports=mongoose.model("User",userSchema);
+
+//middleware/auth.js
+const jwt=require("jsonwebtoken");
+const SecretKey="SIBAJIT";
+
+const auth=(req,res,next)=>{
+
+    try {
+        let token=req.session.token;
+        if(token){
+            let user=jwt.verify(token,SecretKey);
+            console.log(user);
+            req.userId=user.id
+            next();
+        }else{
+            return   res.status(401).json({error:"Unuthorized user"})
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(401).json({error:"something wrong"})
+    }
+}
+
+module.exports=auth;
+
+
+//controller/user.js
+
+const usermodule=require("../src/module/userSchema");
+const jwt=require("jsonwebtoken");
+const bcrypt=require("bcrypt")
+const SecretKey="asasas";
+
+const signup=async (req,res)=>{
+    let data=await req.body
+   try{
+       const userexist=await usermodule.findOne({email:data.email});
+       if(userexist){
+           console.log("user exist");
+       }
+       
+       else{
+        const hashPassword=await bcrypt.hash(data.password,10);
+           let result=await usermodule.create({
+               username:data.username,
+               email:data.email,
+               password:hashPassword
+           })
+           
+           const token=jwt.sign({email:result.email,id:result._id},SecretKey,{expiresIn:"1h"});
+           res.cookie('token',token,{
+               httpOnly:true
+           })
+           res.redirect("/");
+       }
+    
+    
+
+   }catch(error){
+     console.log(error);
+   }
+}
+const login=async (req,res)=>{
+    const data=req.body;
+    try {
+        const userexist=await usermodule.findOne({email:data.email});
+        if(!userexist){
+           return res.status(400).json({error:"user not found"});
+        }
+        const matchpassword=await bcrypt.compare(data.password,userexist.password);
+        if(!matchpassword){
+            return res.status(401).json({error:"Invalid Password"})
+        }
+        const token=jwt.sign({email:userexist.email,id:userexist._id},SecretKey,{expiresIn:"1h"})
+        // console.log(token);
+        req.session.token = token;
+        res.redirect("/");
+        
+    } catch (error) {
+        return res.status(401).json({error:"somethings wrong"})
+    }
+}
+const logout=(req,res)=>{
+    req.session.destroy((err)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.redirect("/");
+        }
+    })
+}
+
+module.exports={signup,login,logout};
+
+
+
+//views/home.ejs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    
+      <nav class="nav">
+        <a class="nav-link active" aria-current="page" href="/">Home</a>
+        <a class="nav-link" href="/login">Login</a>
+              <a class="nav-link" href="/logout">Logout</a>
+              <a class="nav-link" href="/signup">SignUp</a>
+              <a class="nav-link" href="/profile">Profile</a>
+      </nav>
+ <p>Google LLC (/ˈɡuːɡəl/ (listen)) is an American multinational technology company focusing on artificial intelligence,[9] online advertising, search engine technology, cloud computing, computer software,</p>
+<%- include('layout/Fotter') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>
+
+//login.ejs
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    
+      <nav class="nav">
+        <a class="nav-link active" aria-current="page" href="/">Home</a>
+        <a class="nav-link" href="/login">Login</a>
+              <a class="nav-link" href="/logout">Logout</a>
+              <a class="nav-link" href="/signup">SignUp</a>
+              <a class="nav-link" href="/profile">Profile</a>
+      </nav>
+ <form action="/login" method="post">
+    <br><input type="email" name="email" placeholder="Enter Email" value="ret@gmail.com"><br>
+    <br><input type="text" name="password" placeholder="Password" value="ret"><br>
+   <br> <button type="submit" name="submit" value="Add user" class="btn btn-primary">Submit</button>
+ </form>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>
+
+//profile.ejs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    
+      <nav class="nav">
+        <a class="nav-link active" aria-current="page" href="/">Home</a>
+        <a class="nav-link" href="/login">Login</a>
+              <a class="nav-link" href="/logout">Logout</a>
+              <a class="nav-link" href="/signup">SignUp</a>
+              <a class="nav-link" href="/profile">Profile</a>
+      </nav>
+ <div>
+     <h1>Profile</h1>
+ </div>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>
+
+//signup.ejs
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    
+      <nav class="nav">
+        <a class="nav-link active" aria-current="page" href="/">Home</a>
+        <a class="nav-link" href="/login">Login</a>
+              <a class="nav-link" href="/logout">Logout</a>
+              <a class="nav-link" href="/signup">SignUp</a>
+              <a class="nav-link" href="/profile">Profile</a>
+      </nav>
+ <form action="/signup" method="post">
+    <input type="text" name="username" placeholder="Enter Name"><br>
+    <br><input type="email" name="email" placeholder="Enter Email"><br>
+    <br><input type="text" name="password" placeholder="Password"><br>
+   <br> <button type="submit" name="submit" value="Add user" class="btn btn-primary">Submit</button>
+ </form>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>
+	
